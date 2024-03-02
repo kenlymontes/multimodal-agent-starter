@@ -40,24 +40,6 @@ DEFAULT_PERSONALITY = """- You engage in casual conversations and have feelings.
 
 class DocumentQAAgentService(AgentService):
 
-    class AgentConfig(Config):
-        name: str = Field(DEFAULT_NAME, description="The name of this agent.")
-        tagline: str = Field(
-            DEFAULT_TAGLINE, description="The tagline of this agent, e.g. 'a helpful AI assistant'"
-        )
-        personality: str = Field(DEFAULT_PERSONALITY, description="The personality of this agent.")
- 
-    @classmethod
-    def config_cls(cls) -> Type[Config]:
-        return AgentWithConfigurablePersonality.AgentConfig
- 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
- 
-        prompt = (
-            f"""You are {self.config.name}, {self.config.tagline}.\n\n{self.config.personality}"""
-        )
-
     """DocumentQAService is an example AgentService that exposes:  # noqa: RST201
 
     - A few authenticated endpoints for learning PDF and YouTube documents:
@@ -91,6 +73,11 @@ class DocumentQAAgentService(AgentService):
         telegram_bot_token: str = Field(
             "", description="[Optional] Secret token for connecting to Telegram"
         )
+        name: str = Field(DEFAULT_NAME, description="The name of this agent.")
+        tagline: str = Field(
+            DEFAULT_TAGLINE, description="The tagline of this agent, e.g. 'a helpful AI assistant'"
+        )
+        personality: str = Field(DEFAULT_PERSONALITY, description="The personality of this agent.")
 
     config: DocumentQAAgentServiceConfig
     """The configuration block that users who create an instance of this agent will provide."""
@@ -98,13 +85,19 @@ class DocumentQAAgentService(AgentService):
     tools: List[Tool]
     """The list of Tools that this agent is capable of using."""
 
+    
+        
+ 
     @classmethod
     def config_cls(cls) -> Type[Config]:
-        """Return the Configuration class so that Steamship can auto-generate a web UI upon agent creation time."""
-        return DocumentQAAgentService.DocumentQAAgentServiceConfig
-
+        return AgentWithConfigurablePersonality.AgentConfig
+ 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+ 
+        prompt = (
+            f"""You are {self.config.name}, {self.config.tagline}.\n\n{self.config.personality}"""
+        )
 
         # Tools Setup
         # -----------

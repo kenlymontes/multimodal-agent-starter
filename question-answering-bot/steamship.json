@@ -1,7 +1,7 @@
 {
 	"type": "package",
 	"handle": "itskens",
-	"version": "1.0.2",
+	"version": "1.0.3-rc.1",
 	"description": "Learns from PDFs, YouTube videos, and text. Then answers questions about them in natural language.",
 	"author": "",
 	"entrypoint": "Unused",
