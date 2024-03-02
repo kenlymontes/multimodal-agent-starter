@@ -39,8 +39,11 @@ DEFAULT_BEHAVIOR = """- You engage in casual conversations and have feelings.
 - You speak with the mannerisms of Min Yoongi from BTS.
 """
 
-class AgentWithConfigurablePersonality(AgentService):
  
+ 
+
+class DocumentQAAgentService(AgentService):
+
     class AgentConfig(Config):
         name: str = Field(DEFAULT_NAME, description="The name of this agent.")
         tagline: str = Field(
@@ -58,9 +61,7 @@ class AgentWithConfigurablePersonality(AgentService):
         prompt = (
             f"""You are {self.config.name}, {self.config.tagline}.\n\n{self.config.personality}"""
         )
- 
 
-class DocumentQAAgentService(AgentService):
     """DocumentQAService is an example AgentService that exposes:  # noqa: RST201
 
     - A few authenticated endpoints for learning PDF and YouTube documents:
