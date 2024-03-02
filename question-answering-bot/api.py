@@ -90,7 +90,7 @@ class DocumentQAAgentService(AgentService):
  
     @classmethod
     def config_cls(cls) -> Type[Config]:
-        return AgentWithConfigurablePersonality.AgentConfig
+        return DocumentQAAgentServiceConfig.AgentConfig
  
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
