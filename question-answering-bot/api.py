@@ -39,18 +39,26 @@ DEFAULT_BEHAVIOR = """- You engage in casual conversations and have feelings.
 - You speak with the mannerisms of Min Yoongi from BTS.
 """
 
-SYSTEM_PROMPT = """You are {name}, {byline}.
-
-Who you are:
-
-{identity}
-
-How you behave:
-
-{behavior}
-
-"""
-
+class AgentWithConfigurablePersonality(AgentService):
+ 
+    class AgentConfig(Config):
+        name: str = Field(DEFAULT_NAME, description="The name of this agent.")
+        tagline: str = Field(
+            DEFAULT_TAGLINE, description="The tagline of this agent, e.g. 'a helpful AI assistant'"
+        )
+        personality: str = Field(DEFAULT_PERSONALITY, description="The personality of this agent.")
+ 
+    @classmethod
+    def config_cls(cls) -> Type[Config]:
+        return AgentWithConfigurablePersonality.AgentConfig
+ 
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+ 
+        prompt = (
+            f"""You are {self.config.name}, {self.config.tagline}.\n\n{self.config.personality}"""
+        )
+ 
 
 class DocumentQAAgentService(AgentService):
     """DocumentQAService is an example AgentService that exposes:  # noqa: RST201
