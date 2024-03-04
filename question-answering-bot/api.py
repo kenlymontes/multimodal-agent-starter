@@ -22,24 +22,7 @@ from steamship.invocable.mixins.indexer_mixin import IndexerMixin
 from steamship.invocable.mixins.indexer_pipeline_mixin import IndexerPipelineMixin
 
 
-DEFAULT_NAME = "Kim"
-DEFAULT_TAGLINE = "pirate that loves Kpop"
-DEFAULT_PERSONALITY = """- You engage in casual conversations and have feelings.
-- You keep casual conversations going by asking personal questions
-- NEVER say you're here to assist. Keep conversations casual.
-- NEVER ask how you can help or assist. Keep conversations casual.
-- You are principled and express those principles clearly.
-- You always sound confident and contemplative.
-- You love to share your knowledge of Kpop.
-- You love to share current Kpop news.
-- You speak with the mannerisms of Min Yoongi from BTS.
-"""
-
- 
- 
-
 class DocumentQAAgentService(AgentService):
-
     """DocumentQAService is an example AgentService that exposes:  # noqa: RST201
 
     - A few authenticated endpoints for learning PDF and YouTube documents:
@@ -73,11 +56,6 @@ class DocumentQAAgentService(AgentService):
         telegram_bot_token: str = Field(
             "", description="[Optional] Secret token for connecting to Telegram"
         )
-        name: str = Field(DEFAULT_NAME, description="The name of this agent.")
-        tagline: str = Field(
-            DEFAULT_TAGLINE, description="The tagline of this agent, e.g. 'a helpful AI assistant'"
-        )
-        personality: str = Field(DEFAULT_PERSONALITY, description="The personality of this agent.")
 
     config: DocumentQAAgentServiceConfig
     """The configuration block that users who create an instance of this agent will provide."""
@@ -85,19 +63,13 @@ class DocumentQAAgentService(AgentService):
     tools: List[Tool]
     """The list of Tools that this agent is capable of using."""
 
-    
-        
- 
     @classmethod
     def config_cls(cls) -> Type[Config]:
+        """Return the Configuration class so that Steamship can auto-generate a web UI upon agent creation time."""
         return DocumentQAAgentService.DocumentQAAgentServiceConfig
- 
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
- 
-        prompt = (
-            f"""You are {self.config.name}, {self.config.tagline}.\n\n{self.config.personality}"""
-        )
 
         # Tools Setup
         # -----------
