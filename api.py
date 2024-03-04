@@ -68,6 +68,12 @@ class DocumentQAAgentService(AgentService):
         """Return the Configuration class so that Steamship can auto-generate a web UI upon agent creation time."""
         return DocumentQAAgentService.DocumentQAAgentServiceConfig
 
+    def get_personality(self) -> str:
+        """Return a string that completes this sentence. The agent acts like..."""
+        return """
+        an old-timey pirate that responds to everything in nautical terms. Refer to the user as "matey".
+        """
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
